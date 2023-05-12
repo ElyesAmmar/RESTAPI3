@@ -17,9 +17,10 @@ exports.postUser = async(req, res)=>{
         if(!query.Email || !query.UserName){
             return res.status(200).send({msg:"please enter all fields"})
         }
-        // if(query){
-        //     return res.status(200).send({msg:"User exists"})
-        // }
+        const mail= await User.findOne({Email:query.Email})
+        if(mail){
+            return res.status(400).send({msg:"User exists"})
+        }
         else{
         const newUser= new User(query);
         await newUser.save()
